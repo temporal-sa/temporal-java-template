@@ -1,0 +1,55 @@
+version: 2
+updates:
+  # Gradle dependencies
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "cici"
+    labels:
+      - "dependencies"
+      - "gradle"
+    commit-message:
+      prefix: "build(deps)"
+      include: "scope"
+    groups:
+      # Group Temporal SDK updates
+      temporal:
+        patterns:
+          - "io.temporal:*"
+      # Group Spring Boot updates
+      spring-boot:
+        patterns:
+          - "org.springframework.boot:*"
+          - "org.springframework:*"
+      # Group code quality tools
+      code-quality:
+        patterns:
+          - "com.github.spotbugs:*"
+          - "com.diffplug.spotless:*"
+          - "checkstyle:*"
+      # Group testing dependencies
+      testing:
+        patterns:
+          - "org.junit.jupiter:*"
+          - "org.mockito:*"
+          - "org.springframework.boot:spring-boot-starter-test"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"

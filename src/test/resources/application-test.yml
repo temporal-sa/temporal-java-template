@@ -1,0 +1,7 @@
+temporal:
+  service-address: localhost:7233
+  namespace: test
+
+spring:
+  application:
+    name: temporal-java-template-test

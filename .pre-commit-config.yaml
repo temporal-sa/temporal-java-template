@@ -1,0 +1,27 @@
+repos:
+  - repo: local
+    hooks:
+      - id: spotless-check
+        name: Spotless Check
+        entry: ./gradlew spotlessCheck
+        language: system
+        pass_filenames: false
+        files: \.java$
+      - id: checkstyle
+        name: Checkstyle
+        entry: ./gradlew checkstyleMain checkstyleTest
+        language: system
+        pass_filenames: false
+        files: \.java$
+      - id: spotbugs
+        name: SpotBugs
+        entry: ./gradlew spotbugsMain
+        language: system
+        pass_filenames: false
+        files: \.java$
+      - id: test
+        name: Run Tests
+        entry: ./gradlew test
+        language: system
+        pass_filenames: false
+        stages: [push]
