@@ -61,15 +61,45 @@ jacocoTestReport {
         html.required = true
         csv.required = false
     }
+    // Exclude Spring Boot infrastructure and worker main classes from report
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                'com/example/temporal/TemporalApplication.class',
+                'com/example/temporal/config/**',
+                'com/example/temporal/workflows/**/Worker.class',
+                'com/example/temporal/workflows/**/*Worker.class'
+            ])
+        }))
+    }
 }
 
 jacocoTestCoverageVerification {
     violationRules {
         rule {
+            element = 'CLASS'
             limit {
                 minimum = 0.80
             }
+            // Exclude Spring Boot infrastructure and worker main classes
+            excludes = [
+                'com.example.temporal.TemporalApplication',
+                'com.example.temporal.config.*',
+                'com.example.temporal.workflows.**.Worker',
+                'com.example.temporal.workflows.**.*Worker'
+            ]
         }
+    }
+    // Also exclude from class directories
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                'com/example/temporal/TemporalApplication.class',
+                'com/example/temporal/config/**',
+                'com/example/temporal/workflows/**/Worker.class',
+                'com/example/temporal/workflows/**/*Worker.class'
+            ])
+        }))
     }
 }
 
