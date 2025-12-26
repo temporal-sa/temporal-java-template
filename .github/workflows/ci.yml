@@ -110,7 +110,7 @@ jobs:
           cache: 'gradle'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Run Spotless check
         run: ./gradlew spotlessCheck --no-daemon
