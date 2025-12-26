@@ -68,7 +68,7 @@ A modern, production-ready template for building Temporal applications using [Te
 ### Next Steps
 
 - Check out some example prompts to generate Temporal Workflows using your favorite AI tool.
-- After you have built your first Temporal Workflow, read [DEVELOPERS-java.md](./DEVELOPERS-java.md) to learn about development tips & tricks using this template.
+- After you have built your first Temporal Workflow, read [DEVELOPERS.md](./DEVELOPERS.md) to learn about development tips & tricks using this template.
 - See [`docs/temporal-patterns.md`](./docs/temporal-patterns.md) for advanced Temporal patterns
 - Check [`docs/testing.md`](./docs/testing.md) for Temporal testing best practices
 
