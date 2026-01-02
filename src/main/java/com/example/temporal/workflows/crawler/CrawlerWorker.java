@@ -1,6 +1,7 @@
 package com.example.temporal.workflows.crawler;
 
 import io.temporal.client.WorkflowClient;
+import io.temporal.client.WorkflowClientOptions;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
 import io.temporal.worker.Worker;
@@ -18,8 +19,10 @@ import io.temporal.worker.WorkerOptions;
 public class CrawlerWorker {
 
   public static final String TASK_QUEUE = "crawler-task-queue";
-  private static final String TEMPORAL_SERVICE_ADDRESS = "localhost:7233";
-  private static final String NAMESPACE = "default";
+  private static final String TEMPORAL_SERVICE_ADDRESS =
+      System.getenv().getOrDefault("TEMPORAL_ADDRESS", "localhost:7233");
+  private static final String NAMESPACE =
+      System.getenv().getOrDefault("TEMPORAL_NAMESPACE", "default");
   private static final int MAX_CONCURRENT_ACTIVITIES = 16;
 
   public static void main(String[] args) {
@@ -28,7 +31,9 @@ public class CrawlerWorker {
         WorkflowServiceStubsOptions.newBuilder().setTarget(TEMPORAL_SERVICE_ADDRESS).build();
 
     WorkflowServiceStubs service = WorkflowServiceStubs.newServiceStubs(options);
-    WorkflowClient client = WorkflowClient.newInstance(service);
+    WorkflowClientOptions clientOptions =
+        WorkflowClientOptions.newBuilder().setNamespace(NAMESPACE).build();
+    WorkflowClient client = WorkflowClient.newInstance(service, clientOptions);
 
     // Create worker factory
     WorkerFactory factory = WorkerFactory.newInstance(client);
@@ -50,7 +55,10 @@ public class CrawlerWorker {
     // Start the worker
     factory.start();
 
-    System.out.println("Crawler Worker started. Polling task queue: " + TASK_QUEUE);
+    System.out.println("Crawler Worker started");
+    System.out.println("Temporal Service: " + TEMPORAL_SERVICE_ADDRESS);
+    System.out.println("Namespace: " + NAMESPACE);
+    System.out.println("Task Queue: " + TASK_QUEUE);
     System.out.println("Max concurrent activities: " + MAX_CONCURRENT_ACTIVITIES);
     System.out.println("Press Ctrl+C to stop the worker.");
   }
