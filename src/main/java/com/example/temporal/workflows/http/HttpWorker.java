@@ -17,8 +17,8 @@ import io.temporal.worker.WorkerFactory;
 public class HttpWorker {
 
   public static final String TASK_QUEUE = "http-task-queue";
-  private static final String TEMPORAL_SERVICE_ADDRESS = "localhost:7233";
-  private static final String NAMESPACE = "default";
+  private static final String TEMPORAL_SERVICE_ADDRESS =
+      System.getenv().getOrDefault("TEMPORAL_ADDRESS", "localhost:7233");
 
   public static void main(String[] args) {
     // Create connection to Temporal service
@@ -43,7 +43,9 @@ public class HttpWorker {
     // Start the worker
     factory.start();
 
-    System.out.println("HTTP Worker started. Polling task queue: " + TASK_QUEUE);
+    System.out.println("HTTP Worker started");
+    System.out.println("Temporal Service: " + TEMPORAL_SERVICE_ADDRESS);
+    System.out.println("Task Queue: " + TASK_QUEUE);
     System.out.println("Press Ctrl+C to stop the worker.");
   }
 }
