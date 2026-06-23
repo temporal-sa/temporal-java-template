@@ -55,7 +55,7 @@ class HttpActivitiesTest {
   void testHttpGet_EmptyResponse() {
     // Arrange
     String url = "https://example.com";
-    ResponseEntity<String> responseEntity = new ResponseEntity<>(null, HttpStatus.OK);
+    ResponseEntity<String> responseEntity = new ResponseEntity<>((String) null, HttpStatus.OK);
 
     when(restTemplate.getForEntity(url, String.class)).thenReturn(responseEntity);
 

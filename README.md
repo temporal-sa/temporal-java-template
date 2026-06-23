@@ -153,22 +153,26 @@ Demonstrates a complex workflow with parallel execution and stateful logic.
 
 ### Temporal Connection
 
-Edit `src/main/resources/application.yml`:
+The application uses environment variables for configuration with sensible defaults:
 
 ```yaml
 temporal:
-  service-address: localhost:7233  # Temporal server address
-  namespace: default               # Temporal namespace
+  service-address: ${TEMPORAL_ADDRESS:localhost:7233}  # Temporal server address
+  namespace: ${TEMPORAL_NAMESPACE:default}             # Temporal namespace
+  cert-path: ${TEMPORAL_CERT_PATH:}                    # Path to client certificate (for mTLS)
+  key-path: ${TEMPORAL_KEY_PATH:}                      # Path to private key (for mTLS)
 ```
+
+**For local development**, no configuration is needed. The application defaults to `localhost:7233` with namespace `default`.
 
 ### Temporal Cloud (mTLS)
 
-For production deployments using Temporal Cloud, the application automatically detects and configures mTLS when certificate paths are provided via environment variables.
+For production deployments using Temporal Cloud, configure via environment variables:
 
 **Set environment variables:**
 
 ```bash
-export TEMPORAL_SERVICE_ADDRESS=<namespace>.<account-id>.tmprl.cloud:7233
+export TEMPORAL_ADDRESS=<namespace>.<account-id>.tmprl.cloud:7233
 export TEMPORAL_NAMESPACE=<your-namespace>
 export TEMPORAL_CERT_PATH=/path/to/client.pem
 export TEMPORAL_KEY_PATH=/path/to/client.key
@@ -181,12 +185,19 @@ export TEMPORAL_KEY_PATH=/path/to/client.key
 ./gradlew runCrawlerWorker
 ```
 
-The application will automatically:
-- Detect the presence of `TEMPORAL_CERT_PATH` and `TEMPORAL_KEY_PATH`
-- Configure mTLS for Temporal Cloud connection
-- Fall back to local connection if certificates are not provided
+The workers will automatically use the environment variables and:
+- Connect to your Temporal Cloud namespace
+- Use mTLS authentication if certificate paths are provided
+- Display connection information on startup
 
-**Note**: For local development, no configuration is needed. The application defaults to `localhost:7233` with namespace `default`.
+**Example startup output:**
+
+```
+HTTP Worker started
+Temporal Service: my-namespace.a2b3c.tmprl.cloud:7233
+Task Queue: http-task-queue
+Press Ctrl+C to stop the worker.
+```
 
 ### Worker Configuration
 

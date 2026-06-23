@@ -1,5 +1,5 @@
 temporal:
-  service-address: ${TEMPORAL_SERVICE_ADDRESS:localhost:7233}
+  service-address: ${TEMPORAL_ADDRESS:localhost:7233}
   namespace: ${TEMPORAL_NAMESPACE:default}
   cert-path: ${TEMPORAL_CERT_PATH:}
   key-path: ${TEMPORAL_KEY_PATH:}
