@@ -1,6 +1,6 @@
 temporal:
-  service-address: localhost:7233
-  namespace: test
+  service-address: ${TEMPORAL_ADDRESS:localhost:7233}
+  namespace: ${TEMPORAL_NAMESPACE:test}
 
 spring:
   application:
